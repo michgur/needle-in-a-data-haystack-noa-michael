@@ -1,0 +1,40 @@
+\documentclass[14pt]{extarticle}
+\linespread{1.5}
+\usepackage[margin=1in]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{helvet}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\subsection*{4.1 Clean \texttt{df\_demographics}}
+\begin{enumerate}[label=(\alph*)]
+  \setcounter{enumi}{1}
+  \item All countries had valid, numeric life expectancy (both sexes) values, in range $[40,100]$.
+  \item All countries had valid, numeric population density and urban population values.
+  \setcounter{enumi}{5}
+  \item Overall, 7 countries were affected. For Brunei, a leading space was removed.
+    The rest of the mismatches were caused by irregular capitalization
+    (as Python's \texttt{str.title()} does not handle words such as "and" or "of" and abbreviations).
+  \begin{center}
+    \begin{tabular}{ |c|c| }
+      \hline
+      New value&Previous value\\
+      \hline
+      Antigua And Barbuda&Antigua and Barbuda\\
+      Bosnia And Herzegovina&Bosnia and Herzegovina\\
+      Brunei&Brunei\\
+      Côte D'Ivoire&Côte d'Ivoire\\
+      Dr Congo&DR Congo\\
+      State Of Palestine&State of Palestine\\
+      Trinidad And Tobago&Trinidad and Tobago\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{enumerate}
+\end{document}

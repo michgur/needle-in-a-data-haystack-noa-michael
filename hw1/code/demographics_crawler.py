@@ -1,5 +1,6 @@
 from typing import Any
 import re
+from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin
@@ -52,13 +53,14 @@ if __name__ == "__main__":
         data["country"] = country
         rows.append(data)
     df_demographics = pd.DataFrame(rows)
-    df_demographics.to_csv("./output/demographics_data.csv")
+    Path("output").mkdir(exist_ok=True)
+    df_demographics.to_csv("output/demographics_data.csv", index=False)
 
     df_before_sort = df_demographics.head(10)
     print(df_before_sort)
-    df_before_sort.to_csv("./output/demographics_before_sort.csv")
+    df_before_sort.to_csv("output/demographics_before_sort.csv", index=False)
 
     df_demographics.sort_values("country", inplace=True)
     df_after_sort = df_demographics.head(10)
     print(df_after_sort)
-    df_after_sort.to_csv("./output/demographics_after_sort.csv")
+    df_after_sort.to_csv("output/demographics_after_sort.csv", index=False)

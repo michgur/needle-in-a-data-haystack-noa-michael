@@ -1,0 +1,44 @@
+\documentclass[14pt]{extarticle}
+\linespread{1.5}
+\usepackage[margin=1in]{geometry}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{helvet}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{bbm}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+\subsection*{3.1 Web-crawling}
+Below are the first 10 rows of \texttt{df\_demographics} after crawling the website
+and casting fields to appropriate types. The crawler extracted the countries in alphabetic order,
+so sorting by \texttt{Country} did not affect the output.
+
+{\scriptsize
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c| }
+  \hline
+  Country&Life Exp. (Both)&Life Exp. (Female)&Life Exp. (Male)&Urban Pop.&Urban Pop. \%&Pop. Density\\
+  \hline
+  Afghanistan&66.5&68.1&64.9&11704638&26.7&67\\
+  Albania&80.0&81.7&78.1&1948831&70.3&101\\
+  Algeria&76.7&78.1&75.3&35291973&74.4&20\\
+  Angola&65.0&67.5&62.4&26847887&68.8&31\\
+  Antigua and Barbuda&77.9&80.6&74.9&26823&28.5&214\\
+  Argentina&77.7&80.2&75.1&44010474&96.0&17\\
+  Armenia&76.0&79.7&71.8&1882155&63.8&104\\
+  Aruba&76.6&79.1&74.0&48340&44.7&601\\
+  Australia&84.2&86.0&82.4&23335357&86.5&4\\
+  Austria&82.3&84.6&80.0&5337973&58.6&111\\
+  \hline
+\end{tabular}
+\end{center}}
+
+\subsection*{3.2 Load the 2021 CSVs}
+\subsection*{4}
+TODO - IMPORT FROM cleaning_summary when done
+\subsection*{5}
+\end{document}
