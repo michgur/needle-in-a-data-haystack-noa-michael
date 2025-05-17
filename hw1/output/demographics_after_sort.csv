@@ -1,4 +1,4 @@
-life_exp_both,life_exp_female,life_exp_male,urban_pop,urban_pop_percent,pop_density,country
+LifeExpectancy_Both,LifeExpectancy_Female,LifeExpectancy_Male,UrbanPopulation_Absolute,UrbanPopulation_Percentage,PopulationDensity,Country
 66.5,68.1,64.9,11704638,26.7,67,Afghanistan
 80.0,81.7,78.1,1948831,70.3,101,Albania
 76.7,78.1,75.3,35291973,74.4,20,Algeria

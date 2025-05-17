@@ -15,26 +15,26 @@ if __name__ == "__main__":
 
     # b)
     invalid_life_exp = (
-        (df["life_exp_both"] > 100)
-        | (df["life_exp_both"] < 40)
-        | (df["life_exp_both"].isna())
+        (df["LifeExpectancy_Both"] > 100)
+        | (df["LifeExpectancy_Both"] < 40)
+        | (df["LifeExpectancy_Both"].isna())
     )
     print("Countries with missing / invalid life expectancy:", invalid_life_exp.sum())
     df = df[~invalid_life_exp]
     # c)
-    df["urban_pop"] = df["urban_pop"].astype(int)
-    df["pop_density"] = df["pop_density"].astype(int)
-    invalid_pop = df["urban_pop"].isna() | df["pop_density"].isna()
+    df["UrbanPopulation_Absolute"] = df["UrbanPopulation_Absolute"].astype(int)
+    df["PopulationDensity"] = df["PopulationDensity"].astype(int)
+    invalid_pop = df["UrbanPopulation_Absolute"].isna() | df["PopulationDensity"].isna()
     print(
         "Countries with missing / invalid urban population or population density:",
         invalid_pop.sum(),
     )
     df = df[~invalid_pop]
     # d)
-    df["country"] = df["country"].apply(normalize_country_name)
+    df["Country"] = df["Country"].apply(normalize_country_name)
     # e)
-    diff = df["country"].compare(df_original["country"])
+    diff = df["Country"].compare(df_original["Country"])
     diff.to_csv("output/name_mismatches.csv")
-    df.set_index("country", inplace=True)
+    df.set_index("Country", inplace=True)
 
     pass
