@@ -14,9 +14,14 @@
 \begin{document}
 \subsection*{4.1 Clean \texttt{df\_demographics}}
 \begin{enumerate}[label=(\alph*)]
-  \setcounter{enumi}{1}
-  \item All countries had valid, numeric life expectancy (both sexes) values, in range $[40,100]$.
+  \item Some fields may have been missing or scarped incorrectly resulting in
+    nonsensical values or \texttt{NaN} → we made sure columns have appropriate numeric data types,
+    and dropped rows with missing values, or values not in expected range.
+  \item All countries had valid, numeric life expectancy values, in range $[40,100]$.
   \item All countries had valid, numeric population density and urban population values.
+  \item Country names are inconsistent between datasets →
+    In order to keep as many countries as possible when merging datasets down the line,
+    we applied a normalization scheme to country names.
   \setcounter{enumi}{5}
   \item Overall, 7 countries were affected. For Brunei, a leading space was removed.
     The rest of the mismatches were caused by irregular capitalization
@@ -37,4 +42,71 @@
     \end{tabular}
   \end{center}
 \end{enumerate}
+\begin{itemize}
+  \item Rows before cleaning: 200
+  \item Rows after cleaning: 200 (0 dropped)
+\end{itemize}
+\subsection*{4.2 Clean \texttt{df\_gdp}}
+Issues encountered:
+\begin{itemize}
+\item Non-numeric characters (commas, currency symbols, etc.) in the
+\texttt{GDP\_per\_capita\_PPP} column → prevented direct float conversion
+\item Missing values introduced when malformed strings were coerced to \texttt{NaN}
+→ needed to be documented and removed
+\item Potential outliers in the GDP distribution → important to flag for
+downstream analysis
+\item Duplicate country entries → required de-duplication logic
+\item Inconsistent country names → needed standardization
+\end{itemize}
+Actions taken:
+\begin{enumerate}
+\item \textbf{Type conversion}\\
+Cast \texttt{GDP\_per\_capita\_PPP} to string, stripped all non-digit/decimal
+characters, then converted to numeric (no invalid rows found).
+\item \textbf{Missing-value handling}\\
+  Exported rows where \texttt{GDP\_per\_capita\_PPP} was \texttt{NaN} to
+\texttt{output/dropped\_gdp.csv}, then dropped them from the DataFrame (no rows were dropped).
+\item \textbf{Outlier detection (Tukey method)}\\
+Calculated Q1, Q3, and IQR; flagged values outside [Q1 – 1.5·IQR, Q3 +
+1.5·IQR] as outliers (found 6 outliers).
+\item \textbf{Duplicate removal}\\
+  Removed duplicate rows by \texttt{Country} (no duplicates were found).
+\item \textbf{Country-name standardization}\\
+  Applied the same normalization as \texttt{df\_demographics}.
+\end{enumerate}
+\begin{itemize}
+\item Rows before cleaning: 213
+\item Rows after cleaning: 213 (0 dropped)
+\end{itemize}
+\subsection*{4.3 Clean \texttt{df\_pop}}
+Issues encountered:
+\begin{itemize}
+\item Non-numeric characters (spaces, commas, text) in the \texttt{Population} column
+→ prevented direct numeric conversion
+\item Missing values created when malformed strings were coerced to \texttt{NaN} →
+needed to be documented and removed
+\item Potential outliers in the population distribution (on a $\log_{10}$ scale) →
+important to flag for review
+\item Duplicate country entries → required de-duplication logic
+\item Inconsistent country names → needed standardization
+\end{itemize}
+Actions taken:
+\begin{enumerate}
+\item \textbf{Type conversion}\\
+Cast Population to string, removed all non-digit/decimal characters, then
+converted to numeric (no invalid rows found).
+\item \textbf{Missing-value handling}\\
+  Rows Population was \texttt{NaN} were dropped (no such rows found).
+\item \textbf{Outlier detection (Tukey on log scale)}\\
+Computed $\log_{10}$(\texttt{Population}), then calculated Q1, Q3, and IQR; flagged
+values outside [Q1 – 1.5·IQR, Q3 + 1.5·IQR] as outliers (1 outlier found).
+\item \textbf{Duplicate removal}\\
+  Removed duplicate rows by \texttt{Country} (no duplicates were found).
+\item \textbf{Country-name standardization}\\
+  Applied the same normalization as \texttt{df\_demographics}.
+\end{enumerate}
+\begin{itemize}
+\item Rows before cleaning: 260
+\item Rows after cleaning: 260 (0 dropped)
+\end{itemize}
 \end{document}

@@ -12,6 +12,7 @@
 \setlength{\parindent}{0pt}
 
 \begin{document}
+\section*{Part 1 Preview}
 \subsection*{3.1 Web-crawling}
 Below are the first 10 rows of \texttt{df\_demographics} after crawling the website
 and casting fields to appropriate types. The crawler extracted the countries in alphabetic order,
@@ -37,8 +38,304 @@ so sorting by \texttt{Country} did not affect the output.
 \end{tabular}
 \end{center}}
 
-\subsection*{3.2 Load the 2021 CSVs}
-\subsection*{4}
-TODO - IMPORT FROM cleaning\_summary when done
-\subsection*{5}
+\textbf{Shape \& Column Names}\\
+{\footnotesize\texttt{df\_demographics.shape: (200, 6)\\
+df\_demographics.columns: ['LifeExpectancy\_Both', 'LifeExpectancy\_Female', 'LifeExpectancy\_Male', 'UrbanPopulation\_Absolute', 'UrbanPopulation\_Percentage', 'PopulationDensity']}}
+
+\subsection*{Demographics Data Analysis}
+Below are the results of runnign \texttt{describe()} on each of the numeric fields in the crawled
+demographics dataset:
+
+{\scriptsize
+\begin{center}
+\begin{tabular}{ |l|c|c|c|c|c|c| }
+  \hline
+  Stat.&Life Exp. (Both)&Life Exp. (Female)&Life Exp. (Male)&Urban Pop.&Urban Pop. \%&Pop. Density\\
+  \hline
+  mean             &73.98 &  76.60  &  71.38  &  23592449.77  &    57.28  &  156.02\\
+  std              & 7.00 &   7.13  &   6.98  &  83188523.42  &    25.15  &  176.96\\
+  min              &54.80 &  55.10  &  53.50  &         0.00  &     0.00  &    2.00\\
+  25\%             &68.90 &  71.47  &  66.57  &    766036.75  &    40.22  &   35.50\\
+  50\%             &74.85 &  78.05  &  71.20  &   4745905.00  &    60.55  &   88.00\\
+  75\%             &79.12 &  82.03  &  76.30  &  16095833.75  &    77.43  &  222.50\\
+  max              &85.80 &  88.40  &  83.10  & 956553854.00  &    98.80  &  929.00\\
+  missing (or zero)& 0.00 &   0.00  &   0.00  &   10.00       &     10.00 &    0.00\\
+  \hline
+\end{tabular}
+\end{center}}
+
+The pearson correlation between \texttt{LifeExpectancy\_Both} and \texttt{PopulationDensity} is 0.18,
+which is not considered to be a high correlation.
+
+\subsection*{3.2 Loading the 2021 CSVs}
+\textbf{GDP per Capita}\\
+First 5 rows before sorting \textit{(see \texttt{output/gdp\_before\_sort.csv})}
+\begin{center}
+  \begin{tabular}{ |l|c| }
+    \hline
+    Country &\texttt{GDP\_per\_capita\_PPP}\\
+    \hline
+    Afghanistan &2144.1665        \\
+    Albania &16353.8090           \\
+    Algeria &14496.8650           \\
+    Andorra &59332.2030           \\
+    Angola &7408.1265             \\
+    \hline
+  \end{tabular}
+\end{center}
+First 5 rows after sorting \textit{(see \texttt{output/gdp\_after\_sort.csv} — note data was already in A→Z order)}
+\begin{center}
+  \begin{tabular}{ |l|c| }
+    \hline
+    Country &\texttt{GDP\_per\_capita\_PPP}\\
+    \hline
+    Afghanistan &2144.1665        \\
+    Albania &16353.8090           \\
+    Algeria &14496.8650           \\
+    Andorra &59332.2030           \\
+    Angola &7408.1265             \\
+    \hline
+  \end{tabular}
+\end{center}
+Descriptive statistics \textit{(see \texttt{output/gdp\_describe.csv})}
+\begin{center}
+  \begin{tabular}{ |l|c| }
+    \hline
+    Stat.&\texttt{GDP\_per\_capita\_PPP}\\\hline
+    count & 213.000000  \\
+    mean & 25822.604541 \\
+    std & 25794.941595  \\
+    min & 836.665600    \\
+    25\% & 6214.017000  \\
+    50\% & 16353.809000 \\
+    75\% & 38862.090000 \\
+    max & 137947.340000 \\
+    \hline
+  \end{tabular}
+\end{center}
+\textbf{Shape \& Column Names}\\
+{\footnotesize\texttt{df\_gdp.shape: (213, 2)\\
+df\_gdp.columns: ['Country', 'GDP\_per\_capita\_PPP']}}
+
+\textbf{Population}\\
+First 5 rows before sorting \textit{(see \texttt{output/pop\_before\_sort.csv})}
+\begin{center}
+\begin{tabular}{ |l|c| }
+  \hline
+  Country&Population\\
+  \hline
+  Afghanistan&40000360\\
+  Africa&1413750475\\
+  Africa (UN)&1413753005\\
+  Albania&2849591\\
+  Algeria&44761051\\
+  \hline
+\end{tabular}
+\end{center}
+First 5 rows after sorting \textit{(see \texttt{output/pop\_after\_sort.csv} — sorted A→Z)}
+\begin{center}
+\begin{tabular}{ |l|c| }
+  \hline
+  Country&Population\\
+  \hline
+  Afghanistan&40000360\\
+  Africa&1413750475\\
+  Africa (UN)&1413753005\\
+  Albania&2849591\\
+  Algeria&44761051\\
+  \hline
+\end{tabular}
+\end{center}
+Descriptive statistics \textit{(see \texttt{output/pop\_describe.csv} — note scientific notation for large values)}
+\begin{center}
+  \begin{tabular}{ |l|c| }
+    \hline
+    Stat.&\texttt{Population}\\\hline
+    count&2.600000e+02            \\
+    mean &1.687752e+08             \\
+    std  &7.254974e+08              \\
+    min  &5.150000e+02              \\
+    25\% &5.224038e+05             \\
+    50\% &6.827910e+06    \\
+    75\% &3.425334e+07             \\
+    max  &7.954448e+09              \\
+    \hline
+\end{tabular}
+\end{center}
+\textbf{Shape \& Column Names}\\
+{\footnotesize\texttt{df\_pop.shape: (260, 2)\\
+df\_pop.columns: ['Country', 'Population']}}
+
+\section*{Part 2 Preview}
+\textit{Taken from \texttt{output/cleaning\_summary.pdf}}
+\subsection*{4.1 Clean \texttt{df\_demographics}}
+\begin{enumerate}[label=(\alph*)]
+  \item Some fields may have been missing or scarped incorrectly resulting in
+    nonsensical values or \texttt{NaN} → we made sure columns have appropriate numeric data types,
+    and dropped rows with missing values, or values not in expected range.
+  \item All countries had valid, numeric life expectancy values, in range $[40,100]$.
+  \item All countries had valid, numeric population density and urban population values.
+  \item Country names are inconsistent between datasets →
+    In order to keep as many countries as possible when merging datasets down the line,
+    we applied a normalization scheme to country names.
+  \setcounter{enumi}{5}
+  \item Overall, 7 countries were affected. For Brunei, a leading space was removed.
+    The rest of the mismatches were caused by irregular capitalization
+    (as Python's \texttt{str.title()} does not handle words such as "and" or "of" and abbreviations).
+  \begin{center}
+    \begin{tabular}{ |l|l| }
+      \hline
+      Old value&New value\\
+      \hline
+      Antigua and Barbuda&Antigua And Barbuda\\
+      Bosnia and Herzegovina&Bosnia And Herzegovina\\
+      \ Brunei&Brunei\\
+      Côte d'Ivoire&Côte D'Ivoire\\
+      DR Congo&Dr Congo\\
+      State of Palestine&State Of Palestine\\
+      Trinidad and Tobago&Trinidad And Tobago\\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{enumerate}
+\begin{itemize}
+  \item Rows before cleaning: 200
+  \item Rows after cleaning: 200 (0 dropped)
+\end{itemize}
+\subsection*{4.2 Clean \texttt{df\_gdp}}
+Issues encountered:
+\begin{itemize}
+\item Non-numeric characters (commas, currency symbols, etc.) in the
+\texttt{GDP\_per\_capita\_PPP} column → prevented direct float conversion
+\item Missing values introduced when malformed strings were coerced to \texttt{NaN}
+→ needed to be documented and removed
+\item Potential outliers in the GDP distribution → important to flag for
+downstream analysis
+\item Duplicate country entries → required de-duplication logic
+\item Inconsistent country names → needed standardization
+\end{itemize}
+Actions taken:
+\begin{enumerate}
+\item \textbf{Type conversion}\\
+Cast \texttt{GDP\_per\_capita\_PPP} to string, stripped all non-digit/decimal
+characters, then converted to numeric (no invalid rows found).
+\item \textbf{Missing-value handling}\\
+  Exported rows where \texttt{GDP\_per\_capita\_PPP} was \texttt{NaN} to
+\texttt{output/dropped\_gdp.csv}, then dropped them from the DataFrame (no rows were dropped).
+\item \textbf{Outlier detection (Tukey method)}\\
+Calculated Q1, Q3, and IQR; flagged values outside [Q1 – 1.5·IQR, Q3 +
+1.5·IQR] as outliers (found 6 outliers).
+\item \textbf{Duplicate removal}\\
+  Removed duplicate rows by \texttt{Country} (no duplicates were found).
+\item \textbf{Country-name standardization}\\
+  Applied the same normalization as \texttt{df\_demographics}.
+\end{enumerate}
+\begin{itemize}
+\item Rows before cleaning: 213
+\item Rows after cleaning: 213 (0 dropped)
+\end{itemize}
+\subsection*{4.3 Clean \texttt{df\_pop}}
+Issues encountered:
+\begin{itemize}
+\item Non-numeric characters (spaces, commas, text) in the \texttt{Population} column
+→ prevented direct numeric conversion
+\item Missing values created when malformed strings were coerced to \texttt{NaN} →
+needed to be documented and removed
+\item Potential outliers in the population distribution (on a $\log_{10}$ scale) →
+important to flag for review
+\item Duplicate country entries → required de-duplication logic
+\item Inconsistent country names → needed standardization
+\end{itemize}
+Actions taken:
+\begin{enumerate}
+\item \textbf{Type conversion}\\
+Cast Population to string, removed all non-digit/decimal characters, then
+converted to numeric (no invalid rows found).
+\item \textbf{Missing-value handling}\\
+  Rows Population was \texttt{NaN} were dropped (no such rows found).
+\item \textbf{Outlier detection (Tukey on log scale)}\\
+Computed $\log_{10}$(\texttt{Population}), then calculated Q1, Q3, and IQR; flagged
+values outside [Q1 – 1.5·IQR, Q3 + 1.5·IQR] as outliers (1 outlier found).
+\item \textbf{Duplicate removal}\\
+  Removed duplicate rows by \texttt{Country} (no duplicates were found).
+\item \textbf{Country-name standardization}\\
+  Applied the same normalization as \texttt{df\_demographics}.
+\end{enumerate}
+\begin{itemize}
+\item Rows before cleaning: 260
+\item Rows after cleaning: 260 (0 dropped)
+\end{itemize}
+
+\section*{Part 3 Preview}
+\subsection*{5.1 New Feature}
+Below is the result of running \texttt{describe()} on the new column \texttt{TotalGDP}:
+\begin{center}
+\begin{tabular}{ |l|r| }
+  \hline
+  mean&      889352331458.71\\
+  std &     3095183898278.81\\
+  min &         391387777.17\\
+  25\% &       36903699628.76\\
+  50\% &      112857767960.96\\
+  75\% &      566276868415.05\\
+  max &    29108919292117.52\\
+  \hline
+\end{tabular}
+\end{center}
+\subsection*{5.2+5.3 Transforms}
+We applied $\log_{10}$ transformation and z-score normalization to columns\\
+\texttt{GDP\_per\_capita\_PPP} and \texttt{Population}, in order to 
+compress scale and center the data, providing a more comprehensible comparison.
+To the column \texttt{LifeExpectancy\_Both}, which already is approximately normally distributed,
+we only applied z-score normalization. Here are the results of running \texttt{describe()} on the
+normalized columns:
+\begin{center}
+\begin{tabular}{ | l | c | c | c | }
+  \hline
+  Stat. & GDP & Population & Life Exp.\\
+  \hline
+  mean   &  -0.00 & -0.00 &-0.00\\
+  std    &   1.00 &  1.00 & 1.00\\
+  min    &  -2.44 & -2.39 &-2.71\\
+  25\%   &  -0.76 & -0.58 &-0.74\\
+  50\%   &   0.09 &  0.07 & 0.12\\
+  75\%   &   0.84 &  0.71 & 0.75\\
+  max    &   1.94 &  2.71 & 1.68\\
+  \hline
+\end{tabular}
+\end{center}
+\subsection*{5.4 Data Integration}
+After normalizing the \texttt{Country} column across dataframes, and setting it as index, we merged them.
+We were left with 173 countries:\\
+\texttt{Afghanistan, Albania, Algeria, Angola, Antigua And Barbuda, Argentina, Armenia, Aruba, Australia, Austria, ...}\\
+The countries \textbf{dropped} from the crawled demographics dataset are:\\
+\texttt{
+Cabo Verde,
+Cuba,
+Curaçao,
+Czech Republic (Czechia),
+Côte D'Ivoire,
+Dr Congo,
+Eritrea,
+French Guiana,
+French Polynesia,
+Guadeloupe,
+Guam,
+Martinique,
+Mayotte,
+Micronesia,
+New Caledonia,
+North Korea,
+Réunion,
+Sao Tome \& Principe,
+South Sudan,
+St. Vincent \& Grenadines,
+State Of Palestine,
+Taiwan,
+Timor-Leste,
+U.S. Virgin Islands,
+Venezuela,
+Western Sahara,
+Yemen
+}
 \end{document}

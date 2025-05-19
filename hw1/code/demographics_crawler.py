@@ -1,12 +1,15 @@
-from typing import Any
 import re
 from pathlib import Path
+from typing import Any
+from urllib.parse import urljoin
+
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin
-import pandas as pd
 
 
+# all country links in the hub have the `data-country` attribute.
+# we utilize this fact to find all countries
 def get_country_urls(hub_url: str) -> dict[str, str]:
     soup = BeautifulSoup(requests.get(hub_url).text, "html.parser")
     country_links = soup.select("[data-country]")
@@ -18,6 +21,10 @@ def get_country_urls(hub_url: str) -> dict[str, str]:
     return countries
 
 
+# exctraction strategy: for each field:
+# 1. find the matching element using html selectors
+# 2. extract the value from the element's text content using regex patterns
+# 3. cast the value to a numeric data type
 def get_country_demographic_data(country_url: str) -> dict[str, Any]:
     # field -> (selector, pattern, dtype)
     data_points = {
@@ -64,3 +71,20 @@ if __name__ == "__main__":
     df_after_sort = df_demographics.head(10)
     print(df_after_sort)
     df_after_sort.to_csv("output/demographics_after_sort.csv", index=False)
+
+    df_demographics = pd.read_csv("output/demographics_data.csv")
+    for column in df_demographics.columns:
+        if not pd.api.types.is_numeric_dtype(df_demographics[column]):
+            continue
+        print(f"\nCrawled stats of {column}")
+        print(df_demographics[column].describe().apply("{0:.2f}".format))
+        print(f"Missing (or zero) values of {column}: ", end="")
+        print((df_demographics[column] == 0 | df_demographics[column].isna()).sum())
+
+    print(
+        f"\nCorrelation between LifeExpectancy_Both and PopulationDensity is {
+            df_demographics['LifeExpectancy_Both'].corr(
+                df_demographics['PopulationDensity'], method='pearson'
+            )
+        }"
+    )

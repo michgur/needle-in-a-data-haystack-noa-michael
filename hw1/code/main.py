@@ -51,11 +51,11 @@ if __name__ == "__main__":
     print(df_pop.head(5))
     df_pop.head(5).to_csv("output/pop_before_sort.csv", index=False)
     df_gdp.sort_values("Country", inplace=True)
-    print("\ndf_gdp head after sort:")
+    print("df_gdp head after sort:")
     print(df_gdp.head(5))
     df_gdp.head(5).to_csv("output/gdp_after_sort.csv", index=False)
     df_pop.sort_values("Country", inplace=True)
-    print("\ndf_pop head after sort:")
+    print("df_pop head after sort:")
     print(df_pop.head(5))
     df_pop.head(5).to_csv("output/pop_after_sort.csv", index=False)
     # e)
@@ -101,6 +101,9 @@ if __name__ == "__main__":
         df_original["Country"], result_names=("New", "Old")
     ).to_csv("output/name_mismatches.csv", index=False)
     df_demographics.set_index("Country", inplace=True)
+
+    print("df_demographics shape:", df_demographics.shape)
+    print("df_demographics columns:", list(df_demographics.columns))
 
     # 4.2
     df_gdp["GDP_per_capita_PPP"] = to_numeric_safe(df_gdp["GDP_per_capita_PPP"])
@@ -168,3 +171,10 @@ if __name__ == "__main__":
         "output/X.npy",
         df_final[["LifeExpectancy_Both", "LogGDPperCapita", "LogPopulation"]].values,
     )
+
+    for column in df_final.columns:
+        print(f"\nFinal stats of {column}")
+        print(df_final[column].describe().apply("{0:.2f}".format))
+
+    print("\ndf_final head:")
+    print(df_final.head(10))
